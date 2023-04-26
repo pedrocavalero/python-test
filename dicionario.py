@@ -9,8 +9,6 @@ meu_dicionario = {
     'cidade': 'São Paulo'
 }
 
-string_resultado = dict_to_string(meu_dicionario)
-print(string_resultado)
 
 from flask import Flask, jsonify
 
