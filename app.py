@@ -7,6 +7,7 @@ app = Flask(__name__)
 def hello():
     return "Hello Cesar"
 
+
 @app.route('/dicionario')
 def get_dicionario():
     meu_dicionario = {
@@ -16,6 +17,8 @@ def get_dicionario():
     }
     resultado = dict_to_string(meu_dicionario)
     return jsonify(resultado)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
