@@ -7,7 +7,7 @@ app = Flask(__name__)
 def hello():
     return "Hello Cesar"
 
-@app.route("hello, str<nome>")
+@app.route("/hello/str<nome>")
 def hello():
     return f"Ola, {nome}!"
 
