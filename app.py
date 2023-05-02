@@ -7,9 +7,9 @@ app = Flask(__name__)
 def hello():
     return "Hello Cesar"
 
-@app.route("/hello/str<nome>")
-def hello():
-    return f"Ola, {nome}!"
+@app.route("/ola/<name>")
+def Ola(name):
+    return f"Ola, {name}!"
 
 @app.route('/dicionario')
 def get_dicionario():
