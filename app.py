@@ -3,10 +3,9 @@ from dicionario import dict_to_string
 
 app = Flask(__name__)
 
-@app.route("/hello")
-def hello():
-    return "Hello Cesar"
-
+@app.route("/hello/<name>")
+def hello(name):
+    return f"Hello {name}!"
 
 @app.route('/dicionario')
 def get_dicionario():
