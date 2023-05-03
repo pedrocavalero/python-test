@@ -7,6 +7,11 @@ app = Flask(__name__)
 def hello(name):
     return f"Hello {name}!"
 
+@app.route('/lista')
+def lista():
+    lista=['maca', 'macaco', 'chuchu']
+    return lista
+
 @app.route('/dicionario')
 def get_dicionario():
     meu_dicionario = {
