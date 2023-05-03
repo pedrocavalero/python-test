@@ -21,5 +21,7 @@ def get_dicionario():
     resultado = dict_to_string(meu_dicionario)
     return jsonify(resultado)
 
+
+
 if __name__ == '__main__':
     app.run(debug=True)
