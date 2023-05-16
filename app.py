@@ -1,5 +1,6 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from dicionario import dict_to_string
+from itens import get_itens
 
 app = Flask(__name__)
 
@@ -11,6 +12,18 @@ def hello(name):
 def lista():
     lista=['maca', 'macaco', 'chuchu']
     return lista
+from flask import Flask, jsonify, request
+
+
+@app.route('/itens')
+def get_itens():
+    cor = request.args.get('cor')
+    tamanho = request.args.get('tamanho')
+    itens_filtrados = [item for item in itens if (cor is None or item['cor'] == cor) and (tamanho is None or item['tamanho'] == tamanho)]
+    return jsonify(itens_filtrados)
+
+
+
 
 @app.route('/dicionario')
 def get_dicionario():
