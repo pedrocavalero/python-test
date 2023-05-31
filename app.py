@@ -81,7 +81,7 @@ def get_noticias():
     if noticias:
         return jsonify({'noticias': noticias})
     else:
-        return jsonify({'mensagem': 'Não foi possível obter as notícias.'})
+        return jsonify({'mensagem': 'Nao foi possivel obter as noticias.'})
 
 if __name__ == '__main__':
      app.run(debug=True)
