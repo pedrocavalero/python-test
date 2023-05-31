@@ -4,7 +4,6 @@ from dicionario import dict_to_string
 from dotenv import load_dotenv
 import os
 import requests
-from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -53,8 +52,8 @@ def get_dicionario():
 load_dotenv()
 
 def obter_noticias():
-    api_key = os.getenv('cesar')
-    url = 'https://newsapi.org/v2/noticias'
+    api_key = os.getenv('API_KEY')
+    url = 'https://newsapi.org/v2/top-headlines'
     params = {
         'country': 'br',
         'apiKey': api_key
@@ -62,30 +61,27 @@ def obter_noticias():
 
     try:
         response = requests.get(url, params=params)
+        response.raise_for_status()
+
         data = response.json()
-
-        if response.status_code == 200:
-            articles = data['articles']
-            news = []
-            for article in articles:
-                title = article['title']
-                source = article['source']['name']
-                news.append(f'Título: {title} | Fonte: {source}')
-
-            return '\n'.join(news)
-        else:
-            return f'Erro na solicitação: {data["Erro"]}'
+        articles = data['articles']
+        news = []
+        for article in articles:
+            title = article['title']
+            source = article['source']['name']
+            news.append(f'Título: {title} | Fonte: {source}')
+        return news
     except requests.exceptions.RequestException as e:
-        return f'Erro na solicitação: {str(e)}'
+        print(f'Erro na solicitação: {str(e)}')
+        return []
 
 @app.route('/noticias')
 def get_noticias():
     noticias = obter_noticias()
-
-    if 'Erro na solicitação' in noticias:
-        return noticias
+    if noticias:
+        return jsonify({'noticias': noticias})
     else:
-        return 'Chave da API válida. Solicitações à News API podem ser feitas.'
+        return jsonify({'mensagem': 'Não foi possível obter as notícias.'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+     app.run(debug=True)
