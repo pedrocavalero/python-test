@@ -1,0 +1,7 @@
+##POST http://localhost:5000/dvds##
+Content-Type: application/json
+
+{
+  "nome": "Nome do DVD",
+  "ano_lancamento": "Ano de Lançamento"
+}
