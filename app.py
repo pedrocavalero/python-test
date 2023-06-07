@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
 from itens import itens
 from dicionario import dict_to_string
-
+from dotenv import load_dotenv
+import os
+import requests
 
 app = Flask(__name__)
 
@@ -47,6 +49,39 @@ def get_dicionario():
     resultado = dict_to_string(meu_dicionario)
     return jsonify(resultado)
 
+load_dotenv()
+
+def obter_noticias():
+    api_key = os.getenv('API_KEY')
+    url = 'https://newsapi.org/v2/top-headlines'
+    params = {
+        'country': 'br',
+        'apiKey': api_key
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+
+        data = response.json()
+        articles = data['articles']
+        news = []
+        for article in articles:
+            title = article['title']
+            source = article['source']['name']
+            news.append(f'Título: {title} | Fonte: {source}')
+        return news
+    except requests.exceptions.RequestException as e:
+        print(f'Erro na solicitação: {str(e)}')
+        return []
+
+@app.route('/noticias')
+def get_noticias():
+    noticias = obter_noticias()
+    if noticias:
+        return jsonify({'noticias': noticias})
+    else:
+        return jsonify({'mensagem': 'Nao foi possivel obter as noticias.'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+     app.run(debug=True)
