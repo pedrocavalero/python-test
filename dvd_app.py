@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 DVD_DB = []
-next_id = 1
+NEXT_ID = 1
 
 # Rota para obter todos os DVDs
 @app.route('/dvds', methods=['GET'])
@@ -20,20 +20,17 @@ def get_dvd_by_id(dvd_id):
 # Rota para adicionar um DVD
 @app.route('/dvds', methods=['POST'])
 def create_dvd():
-    global next_id
     dvd_data = request.get_json()
     nome = dvd_data.get('nome')
     ano_lancamento = dvd_data.get('ano_lancamento')
-
+    
     dvd = {
-        'id': next_id,
+        'id': len (DVD_DB),
         'nome': nome,
         'ano_lancamento': ano_lancamento
     }
-
+    
     DVD_DB.append(dvd)
-    next_id += 1
-
     return jsonify(dvd), 201
 
 # Rota para atualizar um DVD pelo ID
@@ -55,7 +52,6 @@ def update_dvd(dvd_id):
 # Rota para deletar um DVD pelo ID
 @app.route('/dvds/<int:dvd_id>', methods=['DELETE'])
 def delete_dvd(dvd_id):
-    global DVD_DB
     DVD_DB = [d for d in DVD_DB if d['id'] != dvd_id]
     return '', 204
 
@@ -63,8 +59,7 @@ def delete_dvd(dvd_id):
 def adicionar_dvd(nome, ano_lancamento):
     url = 'http://localhost:5000/dvds'
     payload = {'nome': nome, 'ano_lancamento': ano_lancamento}
-    response = requests.post(url, data=payload)
-    
+    response = requests.post(url, json=payload)
     if response.status_code == 201:
         dvd = response.json()
         print(f"DVD adicionado com sucesso! ID: {dvd['id']}, Nome: {dvd['nome']}, Ano de Lançamento: {dvd['ano_lancamento']}")
