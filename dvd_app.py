@@ -66,5 +66,26 @@ def adicionar_dvd(nome, ano_lancamento):
     else:
         print("Erro ao adicionar o DVD")
 
+
+def atualizar_dvd(dvd_id, nome, ano_lancamento):
+    url = 'http://localhost:5000/dvds/{dvd_id}'
+    payload = {'nome': nome, 'ano_lancamento': ano_lancamento}
+    response = requests.put(url, json=payload)
+    if response.status_code == 200:
+        dvd = response.json()
+        print(f"DVD atualizado com sucesso! ID: {dvd['id']}, Nome: {dvd['nome']}, Ano de Lançamento: {dvd['ano_lancamento']}")
+    else:
+        print(f"Erro ao atualizar o DVD")
+
+
+def deletar_dvd(dvd_id):
+    url = 'http://localhost:5000/dvds/{dvd_id}'
+    response = requests.delete(url)
+    if response.status_code == 204:
+        print(f"DVD com ID {dvd_id} foi excluído com sucesso")
+    else:
+        print(f"Erro ao excluir o DVD com ID {dvd_id}")
+
+        
 if __name__ == '__main__':
      app.run(debug=True)
