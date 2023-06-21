@@ -4,7 +4,6 @@ import requests
 app = Flask(__name__)
 
 DVD_DB = []
-NEXT_ID = 1
 
 # Rota para obter todos os DVDs
 @app.route('/dvds', methods=['GET'])
@@ -52,8 +51,11 @@ def update_dvd(dvd_id):
 # Rota para deletar um DVD pelo ID
 @app.route('/dvds/<int:dvd_id>', methods=['DELETE'])
 def delete_dvd(dvd_id):
-    DVD_DB = [d for d in DVD_DB if d['id'] != dvd_id]
+    indice = dvd_id
+    del DVD_DB [indice]
     return '', 204
+
+
 
 
 def adicionar_dvd(nome, ano_lancamento):
